@@ -14,3 +14,5 @@ class ProductPageLocators():
     ADDED_ITEM_NAME = (By.CSS_SELECTOR, "div.alertinner>strong")
     ITEM_PRICE = (By.CSS_SELECTOR, "div.product_main>p.price_color")
     ADDED_ITEM_PRICE = (By.CSS_SELECTOR, "div.alertinner>p>strong")
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "div.alertinner:nth-child(2)")
+       
