@@ -8,6 +8,7 @@ class ProductPage(BasePage):
         button = self.browser.find_element(*ProductPageLocators.ADD_BUTTON)
         assert button, "No found"
         button.click()
+
     def should_item_name_match(self):
         name = self.browser.find_element(*ProductPageLocators.ITEM_NAME).text
         print(name)
@@ -26,8 +27,7 @@ class ProductPage(BasePage):
     def should_not_be_success_message(self):
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
        "Success message is presented, but should not be"
-        
-
+      
     def should_be_disappeared(self):
         assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
        "Success message is not disappeared"
