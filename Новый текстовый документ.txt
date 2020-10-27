@@ -1,0 +1,4 @@
+[pytest]
+markers =
+    login_guest: marks tests as slow (deselect with '-m "not slow"')
+    serial

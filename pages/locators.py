@@ -2,12 +2,15 @@ from selenium.webdriver.common.by import By
 
 
 class MainPageLocators():
-    #LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
 class LoginPageLocators():
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
     REGISTRATION_FORM = (By.CSS_SELECTOR, "#register_form")
+    REGISTRATION_FORM_EMAIL = (By.CSS_SELECTOR, "#id_registration-email")
+    REGISTRATION_FORM_PASS = (By.CSS_SELECTOR, "#id_registration-password1")
+    REGISTRATION_FORM_PASS_REP = (By.CSS_SELECTOR, "#id_registration-password2")
+    REGISTRATION_FORM_BUTTON = (By.CSS_SELECTOR,"button[name='registration_submit']")
     
 class ProductPageLocators():
     ADD_BUTTON = (By.CSS_SELECTOR, "button.btn-add-to-basket")
@@ -19,4 +22,6 @@ class ProductPageLocators():
        
 class BasePageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    #LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
+    
