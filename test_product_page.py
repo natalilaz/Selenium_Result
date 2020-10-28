@@ -7,77 +7,79 @@ from selenium.webdriver.support.ui import WebDriverWait
 import time
 import pytest
 
+@pytest.mark.need_review
+class TestUserAddToBasketFromProductPage():
+     @pytest.fixture(scope="function", autouse=True)
+     def setup(self, browser):
+          link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
+          page = LoginPage(browser, link)
+          page.open()
+          page.go_to_login_page()
+          email = str(time.time())+"@fakemail.org"
+          password = "@#somefakepass19"
+          page.register_new_user(email, password)
+          page.should_be_authorized_user()
+          
+     def test_user_can_add_product_to_basket(self, browser):
+          self.link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+          page = ProductPage(browser, self.link)
+          page.open()
+          page.add_product_to_basket() #добавление книги в корзину
+          page.should_item_name_match() #сравнение название книги в корзине
+          page.should_item_price_match() #сравнение цены книг в корзине
+
+@pytest.mark.need_review
+def test_quest_can_add_product_to_basket(browser):
+     link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
+     page = ProductPage(browser, link)
+     page.open()
+     page.add_product_to_basket() #добавление книги в корзину
+     page.solve_quiz_and_get_code() #рассчет кода 
+     page.should_item_name_match() #сравнение название книги в корзине
+     page.should_item_price_match() #сравнение цены книг в корзине
+
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-    page = ProductPage(browser, link)
-    page.open()
-    page.go_to_basket_page()
-    basket_page = BasketPage(browser, browser.current_url)
-    basket_page.should_not_be_product_in_basket()
-    basket_page.should_be_message_abot_emty() 
-    
-    
+     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+     page = ProductPage(browser, link)
+     page.open()
+     page.go_to_basket_page()
+     basket_page = BasketPage(browser, browser.current_url)
+     basket_page.should_not_be_product_in_basket()
+     basket_page.should_be_message_abot_emty() 
 
-#class TestUserAddToBasketFromProductPage():
-#     @pytest.fixture(scope="function", autouse=True)
-#     def setup(self, browser):
-#         link = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
-#         page = LoginPage(browser, link)
-#         page.open()
-#         page.go_to_login_page()
-#         email = str(time.time())+"@fakemail.org"
-#         password = "@#somefakepass19"
-#         page.register_new_user(email, password)
-#         page.should_be_authorized_user()
+@pytest.mark.need_review
+def test_guest_can_go_to_login_page_from_product_page(browser):
+     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+     page = ProductPage(browser, link)
+     page.open()
+     page.go_to_login_page()
+        
+       
+def test_guest_should_see_login_link_on_product_page(browser):
+          link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+          page = ProductPage(browser, link)
+          page.open()
+          page.should_be_login_link()
 
-#     def test_quest_cant_see_success_message(self, browser):
-#          self.link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-#          page = ProductPage(browser, self.link)
-#          page.open()                          #открываем страницу товара
-#          page.should_not_be_success_message() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
-          
-#     def test_user_can_add_product_to_basket(self, browser):
-#          self.link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-#          page = ProductPage(browser, self.link)
-#          page.open()
-#          page.add_product_to_basket() #добавление книги в корзину
-          #page.solve_quiz_and_get_code() #рассчет кода 
-#          page.should_item_name_match() #сравнение название книги в корзине
-#          page.should_item_price_match() #сравнение цены книг в корзине
-          
-#def test_quest_can_add_product_to_basket(browser):
-#     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-#     page = ProductPage(browser, link)
-#     page.open()
-#     page.add_product_to_basket() #добавление книги в корзину
-#     #page.solve_quiz_and_get_code() #рассчет кода 
-#     page.should_item_name_match() #сравнение название книги в корзине
-#     page.should_item_price_match() #сравнение цены книг в корзине
+@pytest.mark.xfail
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+     page = ProductPage(browser, link)
+     page.open() #открываем страницу товара
+     page.add_product_to_basket() #Добавляем товар в корзину
+     page.should_not_be_success_message() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
 
-#def test_guest_should_see_login_link_on_product_page(browser):
-#          link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
-#          page = ProductPage(browser, link)
-#          page.open()
-#          page.should_be_login_link()
-
-#def test_guest_can_go_to_login_page_from_product_page(browser):
-#     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
-#     page = ProductPage(browser, link)
-#     page.open()
-#     page.go_to_login_page()
-          
-     #@pytest.mark.xfail
-     #def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
-      #    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-      #    page = ProductPage(browser, link)
-       #   page.open() #открываем страницу товара
-        #  page.add_product_to_basket() #Добавляем товар в корзину
-         # page.should_not_be_success_message() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
+def test_quest_cant_see_success_message(browser):
+          link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+          page = ProductPage(browser, link)
+          page.open()                          #открываем страницу товара
+          page.should_not_be_success_message() #Проверяем, что нет сообщения об успехе с помощью is_not_element_present
      
-     #@pytest.mark.xfail
-     #def test_message_disappeared_after_adding_product_to_basket(browser):
-      #    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
-       #   page = ProductPage(browser, link)
-        #  page.open() #открываем страницу товара
-         # page.add_product_to_basket() #Добавляем товар в корзину
-          #page.should_be_disappeared() #Проверяем, что нет сообщения об успехе с помощью is_disappeared
+@pytest.mark.xfail
+def test_message_disappeared_after_adding_product_to_basket(browser):
+     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+     page = ProductPage(browser, link)
+     page.open() #открываем страницу товара
+     page.add_product_to_basket() #Добавляем товар в корзину
+     page.should_be_disappeared() #Проверяем, что нет сообщения об успехе с помощью is_disappeared
